@@ -1,0 +1,12 @@
+Dynamical Systems:
+  - Math of things that change over time
+  - Things are happening on different scales. Both physical scales and time scales. 
+
+  - Notations: dx/dt=f(x) <=> 
+    - x_dot = dx/dt = a*x 
+    - x_bold = a vector of x. x_bold_dot = A * x_bold
+    - linear systems: f(x)=a1*x1 + a2*x2 + ... + an*xn
+
+Deterministic linear systems: 
+  - x_dot = ax. 
+  - exponential equation: x_dot=x_0 * exp(a*dt)
