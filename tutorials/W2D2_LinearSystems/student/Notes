@@ -1,0 +1,90 @@
+Dynamical Systems:
+  - Math of things that change over time
+  - Things are happening on different scales. Both physical scales and time scales. 
+
+  - Notations: dx/dt=f(x) <=> 
+    - x_dot = dx/dt = a*x 
+    - x_bold = a vector of [x1,x2,...,xn].  x_bold_dot = A * x_bold
+    - linear systems: f(x)=a1*x1 + a2*x2 + ... + an*xn
+
+Deterministic linear systems: 
+  - x_dot = a*x
+  - exponential equation: x(t)=x_0 * exp(a*t). Growh or decay depends on sign of a.
+
+Oscillatory Solutions:
+  - x_dot=lambda*x  lambda is imaginary. lambda=a + bi
+  - x_dot=x_0 * exp(a*dt)= x_0*exp((a+bi)*t) = x_0*(at) * (cos(bt)+isin(bt)). Growth or decay depends on "a" only. b determines freqency of oscillation. 
+
+Multidimensional Dynamics:
+  - [x1_dot, x2_dot] = [a_11 a_12, a_21 a_22] @ [x1, x2]
+  - Behavior of system depends on eigenvector and eignvalue. Growth, decay, saddle.
+
+  - Stream Plot: plots where x_dot is shown at many points of the graph. We see the dynamics of the system. 
+
+
+
+
+
+
+
+
+
+
+Markov Processes: Probabilistic Dynamical Systems:
+Every time you observe some probabilistic dynamical system, starting from the same initial conditions, the outcome will likely be different. 
+Put another way, dynamical systems that involve probability will incorporate random variations in their behavior.
+
+  - A system is Markovian is a system where present state determines the probability of transitions to the next state. 
+  - e.g.: Ion channels 
+
+
+  Telegraph Process: 
+    - If closed: transition to open with P(C2O)=𝑃(0→1|𝑥=0)
+    - If open: transition to closed with P(O2C)=𝑃(1→0|𝑥=1)
+    - The changing states is modeled by Poisson Process. The Poisson process is a way to model discrete events where the 
+      average time between event occurrences is known but the exact time of some event is not known.
+
+      1) The probability of some event occurring is independent from all other events.
+
+      2) The average rate of events within a given time period is constant.
+
+      3) Two events cannot occur at the same moment. Our ion channel can either be in an open or closed state, but not both simultaneously.
+    
+    - Exercise: compute state (open/closed) v.s. time --> compute switch intervals --> visualize time spent ion each state 
+      --> compute cumulative mean of state (0->closed, 1->open) (This mean value is related to the transition probabilities  𝜇𝑐2𝑜  and  𝜇𝑜2𝑐 .)
+      --> [C,O]_k+1 = A * [C,O]_k  A= [ 1-mu_c2o   mu_o2c]    -->plot open-closed state probability evolution wrt to time. 
+                                      [ mu_c2o     1-mu_o2c]
+      - Notice that when dealing with probabilities, we don't calculate the probability derivative (continuous time formulation), instead, we resort to discrete time formulation.
+        - A=0 for continueous time formulation (x_dot=A*x ). A=1 for discrete time formulation (X_k+1 = A*X_k). 
+        - For discrete time formulation, to examine change, we compute the eignevalue spectrum: inside unit circle=>decaying(eig>1); outside unit circle=>growing
+
+
+
+
+Combining determinism and stochasticity:
+  - Random Walk: 
+    steps are normal distributed: N~(mu,sigma). In random walks, the mean of the distribution is independent of time, 
+    but the variance and standard deviation of the distribution scale with time. Such a process is called a diffusive process.
+
+  - Ornstein-Uhlenbeck (OU) process：
+    𝑥𝑘+1= 𝜆𝑥𝑘 ,𝑥𝑘=𝑥0𝜆𝑘
+    𝑥𝑘+1= 𝑥∞ + 𝜆(𝑥𝑘−𝑥∞), 𝑥𝑘= 𝑥∞(1−𝜆𝑘) + 𝑥0𝜆𝑘 (We can make it decay towards any position by adding another parameter  𝑥∞)
+
+    drift-diffusion model or Ornstein-Uhlenbeck (OU) process:
+    𝑥𝑘+1= 𝑥∞ + 𝜆(𝑥𝑘−𝑥∞) + 𝜎𝜂, where  𝜂  is sampled from a standard normal distribution ( 𝜇=0,𝜎=1 ).
+
+    equilibrium variance: Var=𝜎^2/(1−𝜆^2)
+    Unlike the random walk, because there's a decay process that "pulls"  𝑥  back towards  𝑥∞ , the variance does not grow without bound with large  𝑡 .
+    Instead, when it gets far from  𝑥∞ , the position of  𝑥  is restored, until an equilibrium is reached.
+
+
+
+
+Autoregressive Models:
+  - OU process: x_k+1= 𝜆 * 𝑥_𝑘 + 𝜂 --> plot x_k v.s. time-step --> plot x_k+1 v.s. x_k for each time-step(if the same value, then x_k=x_k+1) 
+    --> find lambda by doing lin. regression on x_k+1 v.s. x_k plot. 
+  - Data structure: x_1 = x[0:T] ; x_2 = x[1:T]  => x_2=lambda * x_1 (solve for this)
+
+  - Higher-order autoregressive model: modelling history a few steps back. 𝑥𝑘+1 = 𝛼0+𝛼1𝑥𝑘+𝛼2𝑥𝑘−1+𝛼3𝑥𝑘−2+⋯+𝛼𝑟+1𝑥𝑘−𝑟
+
+
