@@ -1,0 +1,47 @@
+Neuron: Synapse->Dendrite->Cell body->Synapse
+Biophysical Description: 
+  - I(t): current; V(t) Membrane Potential; 
+  - Membrane bilayer: C(t)Capacitance ; g_L Conductance ; E_L Equilibrium constant
+  - LIF Model: I= C_m * dV/dt + g_L( V - E_L ) + (I_Na + I_K + I_H + I_AHP)<- ignore for now
+  - Threshold condition: If V(t)=V_th, then V(t+delta)=E_L. (delta=refractory period)
+  - If we clamp current, the neuron will keep on spiking and V will keep on arriving the V_th at a constant ISI. 
+
+Input-Output Currents:
+  - Constant current input I => Contant ISI. Constant frequency=1/ISI.  Frequency::amount of input current, until a threshold of 1/delta is reached where ISI will no longer increase.
+
+  - Adding noise: C_m * dV/dt = -g_L( V - E_L )+ I + noise. ISI will no longer be constant for constant input current. frequency=1/np.mean(ISI). Noise linearizes frequency-current relationship
+  - White Noise: noise~N(0,sigma^2). we can set noise~N(DC,sigma)
+  - Coeficcient of Variation: ISI will have different distributions with noise. CV of ISI= np.std(ISI)/np.mean(ISI). CV decreases with more injected Current. Before firing threshold of 200 (I=V/R), CV is high. 
+
+  - (Bonus)Generalized LIF: consider input currents from other channels. Introduces linear dynamics (w_k) that inhibit V. This captures non-monoexponential relaxation. 
+    It also captures spike-frequency adaptation (ISI increases with same input) 
+
+  - Correlation: correlation between 2 output trains. Imagine neurons 1 and 2 have a common input, how can we tell this by examining their outputs. Output correlation increases with input corr. Increasing I increases output-input correlation.  
+    Input features: constant current; noise; input correlation
+    Output features: individual average ISI; individual CV; ensemble rate; pairwise correlation.
+
+    Ii-->
+    Ij-->
+    Compute correlation of the input currents.
+
+  - Effect of GWN on correlation transfer function (input CC v.s. output CC):
+    mean of GWN => more spikes => 
+
+
+Dynamic Synapses: 
+  - Glutamatergic v.s. GABAergic cells. 
+    Fast: AMPA v.s. slow: NMDA. 
+    Fast: GABA A v.s. GABA B
+    - I_AMPA= conductance of AMPA ( g_AMPA(t) ) * Distance between membrane and reversal potential of the ion that AMPA allows in/out (V - E_E)
+    - I_NMDA= conductance NMDA ( g_NMDA(V,t) ) * Distance '''
+    - conductance g ~ bi-exponential function
+  
+    - Shuting effect at reversal potential: I=0, V=0, conductance G=sth. I ~~ G since E_E occurs above V_th. 
+    
+  - PSTH: V(t) for a neuron with multiple presynaptic neurons:  np.sum( across all neurons ) np.sum (aross all spikes of 1 neuron)
+    - Short term dynamics: Facilitation: vesicle release probability increases as a result of firing . Depressing: Firing causes a decrease in size of readily releasable pool. 
+    - Static synapses communicate the ensemble rate of presynaptic neurons. Dynamic synapses introduces sensitivity to single neuron ISI.
+    
+
+
+    
